@@ -34,7 +34,12 @@ Because of the lack of JavaScript execution on crawlers of some popular Web sear
 A dynamic component model for SPA must enable dynamic client/server code partitioning. In that sense such framework must provide abstractions for templating definition and rendering, abstraction for streams queries, … to let a developer change dynamically if the component is executed within the browser or at the server side. As it exists lots of technical stack at the server side that uses different programming languages, the component model must provide abstractions to define the component behavior that can be generated to this different technical stacks. In some simple case, we could imagine to do the hypothesis that the server also used JavaScript. In that case, it exists initial solutions \footnote{http://isomorphic.net/ references a set of solutions for client/server partitioning} to let share the same code for the client and the server side.  
 
 \subsection{Browser history}
-With an SPA being, by definition, "a single page", the model breaks the browser's design for page history navigation using the Forward/Back buttons. The traditional solution for SPAs has been to change the browser URL's hash fragment identifier in accord with the current screen state. The HTML5 specification has introduced \textit{pushState} and \textit{replaceState} providing programmatic access to the actual URL and browser history. For a dynamic component model, the main challenge is to defined how to aggregate the states of the many deployed components. The second challenge is to specify if a user request to go back to a previous state, does it include to come back to a previous configuration? 
+With an SPA being, by definition, "a single page", the model breaks the browser's design for page history navigation using the Forward/Back buttons. The traditional solution for SPAs has been to change the browser URL's hash fragment identifier in accord with the current screen state. 
+The HTML5 specification has introduced \textit{pushState} and \textit{replaceState} providing programmatic access to the actual URL and browser history. 
+For a dynamic component model, the main challenge is to defined how to aggregate the states of the many deployed components. 
+The second challenge is to specify if a user request to go back to a previous state, does it include to come back to a previous configuration? 
+
+\ff{Two-fold goal here. First as it is written the history of actions (or naviguation) and the second which is history for caching of data. Here we could speak about the second a bit using JS embedded db}
 
 \subsection{Analytics}
 
