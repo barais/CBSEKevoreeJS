@@ -43,6 +43,13 @@ The second challenge is to specify if a user request to go back to a previous st
 
 \subsection{Analytics}
 
-Analytics is a common concerns for web applications. Tools such as Google Analytics rely heavily upon entire new pages loading in the browser, initiated by a URL change. As SPAs do not work this way, and in particular if we dynamically load new components analytics package has no idea who is doing what on the web applications. The new HTML5 history API allows to add page load events to an SPA. As the component web developers is in charge of using correctly this API, the challenge is then to avoid missing reports and double entries   
+Analytics is a common concerns for web applications. 
+\ff{Analytics is very wide :-) what kind of analytic is part of the challenge here :)?s}
+Tools such as Google Analytics rely heavily upon entire new pages loading in the browser, initiated by a URL change. As SPAs do not work this way, and in particular if we dynamically load new components analytics package has no idea who is doing what on the web applications. 
+The new HTML5 history API allows to add page load events to an SPA. 
+As the component web developers is in charge of using correctly this API, the challenge is then to avoid missing reports and double entries   .
+
+\ff{somehow, Analytics and brower history are clearly more a challenge due to dynamic SPA rather than the CBSE architecture itself. Maybe we should make this more obvious because here this requires undertanding to slit them. A simple solution whould be merge them with an introduction sentence to clarify this link}
+
 \subsection{Speed of initial load (overhead @ runtime) }
 The last challenge is to guarantee the flexibility offered by the use of a pluggable architecture does not introduce too much overhead when we start the SPA. Such an approach must guarantee to  avoid excessive downloading of unused features. 
