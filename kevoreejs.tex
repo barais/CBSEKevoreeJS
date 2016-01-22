@@ -1,8 +1,8 @@
 \section{KevoreeJS: A runtime for reconfigurable single page applications in the browser}
 
-This section present a module system for the JavaScript programming language called KevoreeJS . 
-\ff{Just matter of presention, but i think we not target JS, we target the brower USING javascript. But the goal is really to target a usage and not a language no ? The language is a way todo.}
-KevoreeJS implements a dynamic component model for SPA. 
+This section present a module system for the Browser called KevoreeJS . 
+%\ff{Just matter of presention, but i think we not target JS, we target the brower USING javascript. But the goal is really to target a usage and not a language no ? The language is a way todo.}
+In particular, KevoreeJS implements a dynamic component model for SPA. 
 This component model currently addresses only a part of the challenges discusses in Section 2.   
 
 \subsection{Motivating Scenarios }
@@ -26,7 +26,7 @@ To illustrate the framework, we consider a simple dashboard for sensor-based sys
 
 
 \subsection{KevoreeJS overview }
-KevoreeJS is built on top of models@runtime paradigm. Models@runtime denotes model-driven approaches aiming at taming the complexity of dynamic adaptation. It basically pushes the idea of reflection~\cite{DBLP:conf/icse/MorinBNJ09} one step further by considering the reflection layer as a real model that can be used to drive the system deployment and (re) configuration: ``something simpler, safer or cheaper than reality to avoid the complexity, danger and irreversibility of reality''. In practice, component-based (and/or service-based) platforms like Fractal~\cite{bruneton2006fractal}, OpenCOM~\cite{} or OSGi~\cite{hall2011osgi} offer reflection APIs which make it possible to introspect the system (which components and bindings are currently in place in the system) and dynamic adaptation (by applying CRUD operations on these components and bindings). While some of these platforms offer rollback mechanisms~\cite{} to recover after an erroneous adaptation, the idea of models@runtime is to prevent the system from actually enacting an erroneous adaptation. In other words, the ``model at runtime'' is a reflection model which can be uncoupled (for reasoning, validation, simulation purposes) and automatically resynchronized. This modelling layer provides a common abstraction to describe the system configuration. this model can be interpreted to decide which packages (component package and third parties libraries) must be installed or removed and which component must be instantiated and started. This modelling layer can be also modified and push to peers to trigger distributed reconfigurations. 
+KevoreeJS is built on top of models@runtime paradigm. Models@runtime denotes model-driven approaches aiming at taming the complexity of dynamic adaptation. It basically pushes the idea of reflection~\cite{DBLP:conf/icse/MorinBNJ09} one step further by considering the reflection layer as a real model that can be used to drive the system deployment and (re) configuration: ``something simpler, safer or cheaper than reality to avoid the complexity, danger and irreversibility of reality''. In practice, component-based (and/or service-based) platforms like Fractal~\cite{bruneton2006fractal}, OpenCOM~\cite{grace2005reflective} or OSGi~\cite{hall2011osgi} offer reflection APIs which make it possible to introspect the system (which components and bindings are currently in place in the system) and dynamic adaptation (by applying CRUD operations on these components and bindings). While some of these platforms offer rollback mechanisms~\cite{david2006safe} to recover after an erroneous adaptation, the idea of models@runtime is to prevent the system from actually enacting an erroneous adaptation. In other words, the ``model at runtime'' is a reflection model which can be uncoupled (for reasoning, validation, simulation purposes) and automatically resynchronized. This modelling layer provides a common abstraction to describe the system configuration. this model can be interpreted to decide which packages (component package and third parties libraries) must be installed or removed and which component must be instantiated and started. This modelling layer can be also modified and push to peers to trigger distributed reconfigurations. 
 
 KevoreeJS\footnote{http://runjs.kevoree.org}  implements the Kevoree component model. Kevoree is a dynamic component-based framework for distributed systems that follows the models@runtime paradigm and embeds a structural model of the distributed system. This model is used for two main purposes: (i) it represents a snapshot of the heterogeneous and distributed application state and (ii) it provides a language to drive the reconfiguration of this application. The Kevoree model embodies the following four main concepts of a distributed system. 
 
@@ -76,25 +76,22 @@ Starting the sensor based application on a Chrome browser, running on top of a H
 \subsubsection{Qualitative evaluation  }
 To discuss the strength and the limitations of KevoreeJS, we can discuss the current approach regarding the challenges that have been discussed in Section 2.   
 
-\begin{description}
-	
+\indent \textbf{1.} KevoreeJS provides an initial solution to automatically provision component implementation and third-party libraries. It reuses Bower dependencies model to knows components dependencies and automatically download and install new components. It reuse npm registry to provide public access to the component implementation. KevoreeJS does not provide any sandboxing mechanisms for components. As a result, a KevoreeJS component can easily crash the full reconfigurable SPA. 
 
-\item KevoreeJS provides an initial solution to automatically provision component implementation and third-party libraries. It reuses Bower dependencies model to knows components dependencies and automatically download and install new components. It reuse npm registry to provide public access to the component implementation. KevoreeJS does not provide any sandboxing mechanisms for components. As a result, a KevoreeJS component can easily crash the full reconfigurable SPA. 
+\indent \textbf{2.} KevoreeJS provides a basic type system inherited from the Kevoree component to check component assembly description. It also supports a development that can use TypeScript to ensure that a component is conforms to its interface.  
 
-\item KevoreeJS provides a basic type system inherited from the Kevoree component to check component assembly description. It also supports a development that can use TypeScript to ensure that a component is conforms to its interface.  
+\indent \textbf{3.} KevoreeJS provides an initial UI composition mechanism based on mashup. If this UI composition mechanism is sufficient for a sensor based dashboard, KevoreeJS does not provides advanced composition mechanism.  
 
-\item KevoreeJS provides an initial UI composition mechanism based on mashup. If this UI composition mechanism is sufficient for a sensor based dashboard, KevoreeJS does not provides advanced composition mechanism.  
+\indent \textbf{4.} KevoreeJS provides an initial solution to ensure that only some peers can change the configuration model. However, there is currently no solution to manage some role based access rules on the configuration models. Kevoree relies on registries, which are the providers of the model characteristics. It deal with the same issue of trustability the Linux distributions providers (e.g debian's apt, arch's linux pacman...) have encountered in the past (i.e. what happened if an attacker corrupt a registry and reference a malware?).  In its current implementation, by default, Kevoree is unsecured.   
 
-\item KevoreeJS provides an initial solution to ensure that only some peers can change the configuration model. However, there is currently no solution to manage some role based access rules on the configuration models. Kevoree relies on registries, which are the providers of the model characteristics. It deal with the same issue of trustability the Linux distributions providers (e.g debian's apt, arch's linux pacman...) have encountered in the past (i.e. what happened if an attacker corrupt a registry and reference a malware?).  In its current implementation, by default, Kevoree is unsecured.   
+\indent \textbf{5.} Search Engine Optimization is still an open problem. We do not provide new concepts in the KevoreeJS to solve this issue.    
 
-\item Search Engine Optimization is still an open problem. We do not provide new concepts in the KevoreeJS to solve this issue.    
+\indent \textbf{6.} We support client/server partitioning. 11 among 14 modules that has been developed for the motivating scenario are cross-platform Java-JavaScript components, consequently they can run on the server side or on the client side.  One of the component for doing complex event processing is generated from ThingML behavioral description. ThingML~\cite{DBLP:conf/models/FleureyMSB11} provides code generators for Java, JavaScript, and C. Consequently this component can be deployed dynamically on the Browser or within a Java or JavaScript Kevoree runtime on the server.  
 
-\item We support client/server partitioning. 11 among 14 modules that has been developed for the motivating scenario are cross-platform Java-JavaScript components, consequently they can run on the server side or on the client side.  One of the component for doing complex event processing is generated from ThingML behavioral description. ThingML~\cite{DBLP:conf/models/FleureyMSB11} provides code generators for Java, JavaScript, and C. Consequently this component can be deployed dynamically on the Browser or within a Java or JavaScript Kevoree runtime on the server.  
+\indent \textbf{7.} We take the design decision in KevoreeJS that the browser history only affect the component states. We do not use Browser history API to go back to a previous SPA configuration. 
 
-\item We take the design decision in KevoreeJS that the browser history only affect the component states. We do not use Browser history API to go back to a previous SPA configuration. 
+\indent \textbf{8.} We currently do not provide any solutions for improving analytics in dynamically adaptable SPA.   
 
-\item We currently do not provide any solutions for improving analytics in dynamically adaptable SPA.   
+\indent \textbf{9.} Finally, the core take 20kbytes without any minification. The use of KevoreeJS does not have any real impact on the SPA performance.
 
-\item Finally, the core take 20kbytes without any minification. The use of KevoreeJS does not have any real impact on the SPA performance.
 
-\end{description}
