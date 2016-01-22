@@ -1,6 +1,9 @@
 \section{KevoreeJS: A runtime for reconfigurable single page applications in the browser}
 
-This section present a module system for the JavaScript programming language called KevoreeJS . KevoreeJS implements a dynamic component model for SPA. This component model currently addresses only a part of the challenges discusses in Section 2.   
+This section present a module system for the JavaScript programming language called KevoreeJS . 
+\ff{Just matter of presention, but i think we not target JS, we target the brower USING javascript. But the goal is really to target a usage and not a language no ? The language is a way todo.}
+KevoreeJS implements a dynamic component model for SPA. 
+This component model currently addresses only a part of the challenges discusses in Section 2.   
 
 \subsection{Motivating Scenarios }
 To illustrate the framework, we consider a simple dashboard for sensor-based system in which, it is required to install/uninstall a new web widget when a new sensor appears/disappears. In such system, three kinds of reconfiguration has to be managed: i) the installation and retrieval of software package (javascript code), the instantiation of components, the components parametrization (to bind components through ports, the setup of parameters, ...), the component life-cycle management. ii)  the client/server code partitioning to select if some components that manage complex event queries must be executed on the server side or within the browser. iii) the selection of a specific  deploy unit depending on the browser type, its devices and its screen layout. A figure of the results of such an application is presented in Figure below.  
