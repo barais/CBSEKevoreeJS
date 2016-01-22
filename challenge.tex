@@ -16,8 +16,8 @@ The second main challenge is to make web components contract-aware~\cite{beugnar
 
 \subsection{User Interface composition}
 The next challenge is to provide a way to compose the User Interface (UI). If HTML-based interface technologies enable end-users to easily use various remote Web applications, it is difficult for end-users to express complex compositions. Currently, the main Web actors provide framework to express complex compositions, such as react~\cite{fedosejev2015react} from Facebook that provides an adaptation algorithm to compute the minimum diff in the DOM. Google's polymer~\footnote{https://www.polymer-project.org/1.0/} is a similar approach with stronger emphasis on reusability. RiotJS~\footnote{http://riotjs.com/} also provides a lightweight framework for UI composition, however limited to static composition.
-None of them are able to create dynamically reconfigurable user interface composition for the deployed components.
-\ff{The last sentence is an attack point :-), should be protected}
+None of them are aims at providing dynamically reconfigurable user interface composition mechanism for the deployed components.
+%\ff{The last sentence is an attack point :-), should be protected}
 
 \subsection{Security handling}
 Providing reconfigurations support from an external manager leads to several security issues.
@@ -43,8 +43,8 @@ The second challenge is to specify if a user request to go back to a previous st
 
 \subsection{Analytics}
 
-Analytics is a common concerns for web applications.
-\ff{Analytics is very wide :-) what kind of analytic is part of the challenge here :)?s}
+Analytics is a common concerns for web applications. The goal is to be able to track and report website traffic and user activity.
+%\ff{Analytics is very wide :-) what kind of analytic is part of the challenge here :)?s}
 Tools such as Google Analytics rely heavily upon entire new pages loading in the browser, initiated by a URL change. As SPAs do not work this way, and in particular if we dynamically load new components analytics package has no idea who is doing what on the web applications.
 The new HTML5 history API allows to add page load events to an SPA.
 As the component web developers is in charge of using correctly this API, the challenge is then to avoid missing reports and double entries   .
