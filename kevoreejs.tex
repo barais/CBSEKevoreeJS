@@ -42,27 +42,31 @@ KevoreeJS\footnote{http://runjs.kevoree.org}  implements the Kevoree component m
 For supporting the SPA within the browser, we mainly reused the core of Kevoree component model which is written in Kotlin. This core contains the component model entities, tooling for loading and saving configuration models, tooling for detecting abstract actions (install a library, instantiate a component, bind a component to a channel, \dots)  and tooling to achieve runtime adaptations when the platform receives a new configuration model. As Kotlin provides a code generator for JavaScript, we can reuse this core library directly. As a consequence, to create KevoreeJS we mainly provide the concrete implementations of abstract actions in order to achieve concrete tasks within a running Browser core. We also provide a basic UI composition mechanism based on mashup. Each component comes with its own view that can be composed on the full SPA using mashup. To enable this mashup mechanism, we reuse framework such as AngularJS and angular-gridster. KevoreeJS reuses Bower for its static Web part, but it handles the dynamicity by downloading browserified\footnote{http://browserify.org/} modules directly from the npm registry.
 
 
+Finally we provide a simple development model in JavaScript and in TypeScript for developing components, channels, groups and nodes (see Section III.C).
 
+KevoreeJS comes with a set of tools: 
 
-Finally we provide a simple development model in JavaScript and in TypeScript for developing components, channels, groups and nodes.
-
-KevoreeJS comes with a set of tools: a web-based architecture model editor, a Yeoman generator, a set of Grunt tasks to fully automate the component packaging and publishing and a runtime container to manage the dynamic deployment of third-party libraries.
-
-
-
-The yeoman generator create skeletons to implement new components. It provides six Software artefacts:
 \begin{itemize}
-	\item package.json, which defines the set of dependencies for your component
-	\item Gruntfile.js, which provides the tasks to achieve for creating your component deployment unit. 
-	\item  browser/kevoree-comp-mycomp.html, as we reuse angularJS as a development model for the component, this html file is the view of your component.
-	\item lib/MyComp.js,  as we reuse angularJS as a development model for the component, this JavaScript file contains the model and the controller for your component.
-	\item browser/ui-config.json; this file serves to configure the style parameters, the layout parameters, the angularjs module dependencies parameter and the other JavaScript artefacts to include. 
-	\item kevs/main.kevs; this file contains an initial configuration when starting the application. 
+	\item a web-based architecture model editor, 
+	\item a Yeoman generator, 
+	\item a set of Grunt tasks to fully automate the component packaging and publishing 
+	\item and a runtime container to manage the dynamic deployment of third-party libraries.
+\end{itemize}
+
+
+The yeoman generator create skeletons to implement new components. It mainly provides six Software artefacts:
+\begin{itemize}
+	\item \emph{package.json}, which defines the set of dependencies for your component.
+	\item \emph{Gruntfile.js}, which provides the tasks to achieve for creating your component deployment unit. 
+	\item  \emph{browser/kevoree-comp-mycomp.html}; as we reuse angularJS as a development model for the component, this html file is the artefact in which we create the component  view .
+	\item \emph{lib/MyComp.js}; this JavaScript file contains the model and the controller for the component.
+	\item \emph{browser/ui-config.json}; this file serves to configure the style parameters, the layout parameters, the angularjs module dependencies parameter and the other JavaScript artefacts to include. 
+	\item \emph{kevs/main.kevs}; this file contains an initial configuration when starting the application. 
 \end{itemize}
 
 
 \subsection{Development model}
-To illustrate this development model, we discuss the code of the last four artefacts for a component that has the following view (see Figure~\ref{fig:fig5}).
+To illustrate this development model, we discuss the code of the last four artefacts for a simple component that provides the following graphical behavior (see Figure~\ref{fig:fig5}). This component simply show the state of the component and let a user change some component properties. 
 
 
 \begin{figure}[h]
@@ -72,7 +76,7 @@ To illustrate this development model, we discuss the code of the last four artef
 	\label{fig:fig5}
 \end{figure}
 
-The view contains the following html code. It can access to component attribute such as the life cycle state or business value (\emph{foo} or \emph{value}). It can also act on the component internal behavior in calling specific function declared in the component implementation (\emph{genValue}).
+The view contains the following html code. It can access to component attribute such as the life cycle state or business value (\emph{foo} or \emph{value} l2 or l6). It can also act on the component internal behavior in calling specific function declared in the component implementation (\emph{genValue} l12).
 
 \begin{lstlisting}[language=HTML,numbers=right,firstnumber=last]
 <div class="col-xs-12">
@@ -91,7 +95,7 @@ The view contains the following html code. It can access to component attribute 
 \end{lstlisting}
 
 
-The component implementation contains the following JavaScript code. Implementing a component consists in defining its life-cycle methods (start and stop, l 18-34), defining some parameters that can be configured from the configuration model (l 4-9) and defining the uiControler that will be invoked from the browser runtime to create the graphical views of the component. The binding between the views and the component model is obtained in sharing the \emph{\$scope} object  that refers to the application model in the angularJS technological stack. The developers can also define input and output ports for the component\footnote{https://github.com/kevoree/kevoree-js}). We propose an alternate development model using TypeScript as a main programming language. 
+The component implementation contains the following JavaScript code in the file \emph{lib/MyComp.js}. Implementing a component consists in defining its life-cycle methods (\emph{start} and \emph{stop}, l 120-35), defining some parameters that can be configured from the configuration model (l 4-9) and defining the \emph{uiControler} that will be called from the browser runtime to create the graphical view of the component. The binding between the view and the component model is obtained in sharing the \emph{\$scope} object  that refers to the application model in the angularJS technological stack. The developers can also define input and output ports for the component\footnote{https://github.com/kevoree/kevoree-js}). We propose an alternate development model using TypeScript as a main programming language. 
 
 
 
@@ -166,7 +170,7 @@ Finally, the development model contains a very simple configuration language for
 	\end{itemize}
  
  
-This configuration can be done  using a JSON formatted configuration file: \emph{ui-config.json} such as the one presented below.
+This configuration can be defined using a JSON formatted configuration file named: \emph{browser/ui-config.json} such as the one presented below.
  
 \begin{lstlisting}[language=JavaScript,numbers=right,firstnumber=1,basicstyle=\scriptsize,deletekeywords={port}]
 
@@ -189,8 +193,7 @@ This configuration can be done  using a JSON formatted configuration file: \emph
 }
 \end{lstlisting}
 
-Finally the last artefact contains the configuration model used to define the architecture of a distributed and heterogeneous application. A full documentation of this configuration can be found \cite{http://kevoree.org/doc/}. The following example  illustrates a configuration with two nodes: one that will start a Node.js runtime to provide a WebServer 
- and the other one will run in the Browser runtime. Figure~\ref{fig:fig6} presents a visual representation of this running configuration using the Kevoree Editor. 
+Finally the last artefact contains the configuration model used to define the architecture of a distributed and heterogeneous application. A full documentation of this configuration can be found here \footnote{http://kevoree.org/doc/}. The following example  illustrates a configuration with two nodes: one that will start a Node.js runtime  and the other one will run in the Browser runtime. Figure~\ref{fig:fig6} presents a visual representation of this running configuration using the Kevoree Editor. 
 
 
 \begin{lstlisting}[language=JavaScript,numbers=right,firstnumber=1,basicstyle=\scriptsize,morekeywords={add,attach,set,network}]
@@ -216,7 +219,7 @@ set browser.comp.yourAttrName = 'nonDefaultValue'
 \end{figure}
 
 
- A more complete description of the development model is available online\footnote{ https://github.com/HEADS-project/training/tree/master/2.Kevoree\_Basics}, \footnote{https://github.com/kevoree/kevoree-js.d.ts}.
+ A complete description of the development model is available online\footnote{ https://github.com/HEADS-project/training/tree/master/2.Kevoree\_Basics}, \footnote{https://github.com/kevoree/kevoree-js.d.ts}.
 
 \subsection{Evaluation}
 To validate the proposed approach, we follow two ways. First we provide some figures on KevoreeJS in terms of line of code, number of reusable components available online, time penalty to initiate KevoreeJS when loading the pages. Then, we evaluate the approach regarding the challenges discussed in Section 2.
