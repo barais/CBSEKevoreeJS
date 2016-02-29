@@ -78,7 +78,7 @@ To illustrate this development model, we discuss the code of the last four artef
 
 The view contains the following html code. It can access to component attribute such as the life cycle state or business value (\emph{foo} or \emph{value} l2 or l6). It can also act on the component internal behavior in calling specific function declared in the component implementation (\emph{genValue} l12).
 
-\begin{lstlisting}[language=HTML,numbers=right,firstnumber=last]
+\begin{lstlisting}[language=HTML,numbers=right,firstnumber=last,frame=none,caption={Excerpt of the component view}]
 <div class="col-xs-12">
 <p>Component started? {{ started }}</p>
 </div>
@@ -99,7 +99,7 @@ The component implementation contains the following JavaScript code in the file 
 
 
 
-\begin{lstlisting}[language=JavaScript,numbers=left,firstnumber=1,basicstyle=\scriptsize,deletekeywords={port}]
+\begin{lstlisting}[language=JavaScript,numbers=left,firstnumber=1,basicstyle=\scriptsize,deletekeywords={port},frame=none,caption={Excerpt of the component implementation}]
 var AbstractComponent = require('kevoree-entities').AbstractComponent;
 
 var MyComp = AbstractComponent.extend({
@@ -172,7 +172,7 @@ Finally, the development model contains a very simple configuration language for
  
 This configuration can be defined using a JSON formatted configuration file named: \emph{browser/ui-config.json} such as the one presented below.
  
-\begin{lstlisting}[language=JavaScript,numbers=right,firstnumber=1,basicstyle=\scriptsize,deletekeywords={port}]
+\begin{lstlisting}[language=JavaScript,numbers=right,firstnumber=1,basicstyle=\scriptsize,deletekeywords={port},frame=none,caption={Excerpt of the component configuration}]
 
 {
 	"scripts": [
@@ -196,7 +196,7 @@ This configuration can be defined using a JSON formatted configuration file name
 Finally the last artefact contains the configuration model used to define the architecture of a distributed and heterogeneous application. A full documentation of this configuration can be found here \footnote{http://kevoree.org/doc/}. The following example  illustrates a configuration with two nodes: one that will start a Node.js runtime  and the other one will run in the Browser runtime. Figure~\ref{fig:fig6} presents a visual representation of this running configuration using the Kevoree Editor. 
 
 
-\begin{lstlisting}[language=JavaScript,numbers=right,firstnumber=1,basicstyle=\scriptsize,morekeywords={add,attach,set,network}]
+\begin{lstlisting}[language=JavaScript,numbers=right,firstnumber=1,basicstyle=\scriptsize,morekeywords={add,attach,set,network},frame=none,caption={Excerpt of the application initial configuration}]
 add node0, browser : JavascriptNode
 add sync : WSGroup
 // and we add your component to the Browser node so that you can test your UI
@@ -263,7 +263,7 @@ To discuss the strength and the limitations of KevoreeJS, we present the current
 
 \indent \textbf{6.} We support client/server partitioning. Among 14 modules that have been developed for the motivating scenario, 11 are cross-platform Java-JavaScript components, consequently they can run on the server side or on the client side.  One of the component, which is in charge of doing complex event processing is generated from ThingML behavioral description. ThingML~\cite{DBLP:conf/models/FleureyMSB11} provides code generators for Java, JavaScript, and C. Consequently this component can be deployed dynamically on the Browser or within a Java or JavaScript Kevoree runtime on the server.  The following code illustrates an example of a component behavior that perform a complex event processing on a stream of float value and provide every five second an average of this stream of values. Thanks to thingML code generators, we could obtain C, Java or Javascript implementation of this behavior. Consequently, an architect can dynamically decide if the query must be deployed closed to the sensors, within a gateway or within the bowser. 
 
-\begin{lstlisting}[language=ThingML]
+\begin{lstlisting}[language=ThingML,frame=none,caption={Excerpt of a component implementation defined using ThingML}]
 thing CepComp {
 	message input(v : Float);
 	message output(avg : Float);
@@ -294,7 +294,6 @@ thing CepComp {
 			on entry print("Starting")			
 		}
 	}
-	
 }
 \end{lstlisting}
 
