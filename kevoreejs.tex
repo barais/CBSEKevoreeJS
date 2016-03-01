@@ -44,12 +44,12 @@ For supporting the SPA within the browser, we mainly reused the core of Kevoree 
 
 Finally we provide a simple development model in JavaScript and in TypeScript for developing components, channels, groups and nodes (see Section III.C).
 
-KevoreeJS comes with a set of tools: 
+KevoreeJS comes with a set of tools:
 
 \begin{itemize}
-	\item a web-based architecture model editor, 
-	\item a Yeoman generator, 
-	\item a set of Grunt tasks to fully automate the component packaging and publishing 
+	\item a web-based architecture model editor,
+	\item a Yeoman generator,
+	\item a set of Grunt tasks to fully automate the component packaging and publishing
 	\item and a runtime container to manage the dynamic deployment of third-party libraries.
 \end{itemize}
 
@@ -57,16 +57,16 @@ KevoreeJS comes with a set of tools:
 The Yeoman generator creates skeletons to implement new components. It mainly provides six Software artefacts:
 \begin{itemize}
 	\item \emph{package.json}, which defines the set of dependencies for a component.
-	\item \emph{Gruntfile.js}, which provides the tasks to achieve for creating a component's deployment unit. 
-	\item  \emph{browser/kevoree-comp-mycomp.html}; which is a html file that creates the AngularJS component view
+	\item \emph{Gruntfile.js}, which provides a set of tasks to create component's deployment unit, to start a development environment and to publish the component.
+	\item  \emph{browser/kevoree-comp-mycomp.html}; which is a HTML file used to describe the component's UI (it will be injected in a DOM node that is mapped to the component's AngularJS controller)
 	\item \emph{lib/MyComp.js}; which contains the model and the controller for the component.
-	\item \emph{browser/ui-config.json}; which stores the style parameters, the layout parameters, the AngularJS module dependencies parameter, and the other JavaScript artefacts to include. 
-	\item \emph{kevs/main.kevs}; which contains an initial configuration for the application startup. 
+	\item \emph{browser/ui-config.json}; which stores the styles parameter, the layout parameters, the AngularJS module dependencies parameter, and the other JavaScript files to include.
+	\item \emph{kevs/main.kevs}; which contains an initial configuration for the application startup.
 \end{itemize}
 
 
 \subsection{Development model}
-To illustrate this development model, we discuss the code of the last four artefacts for a simple component that provides the following graphical behavior (see Figure~\ref{fig:fig5}). This component simply show the state of the component and let a user change some component properties. 
+To illustrate this development model, we discuss the code of the last four artefacts for a simple component that provides the following graphical behavior (see Figure~\ref{fig:fig5}). This component simply shows its current state (Kevoree property) and let the user change some properties (pure AngularJS UI properties).
 
 
 \begin{figure}[h]
@@ -76,26 +76,26 @@ To illustrate this development model, we discuss the code of the last four artef
 	\label{fig:fig5}
 \end{figure}
 
-The view contains the following html code. It can access to component attribute such as the life cycle state or business value (\emph{foo} or \emph{value} l2 or l6). It can also act on the component internal behavior in calling specific function declared in the component implementation (\emph{genValue} l12).
+The view contains the following HTML code. It can access the controller's \emph{\$scope} properties such as the lifecycle state (\emph{started}) or the business values (\emph{foo} or \emph{value} l.2 and l.6-11). It can also act on the component internal behavior in calling specific function declared in the component implementation (\emph{genValue} l.12).
 
 \begin{lstlisting}[language=HTML,numbers=right,firstnumber=last,frame=none,caption={Excerpt of the component view}]
 <div class="col-xs-12">
-<p>Component started? {{ started }}</p>
+	<p>Component started? {{ started }}</p>
 </div>
 <div class="form-group col-xs-12">
-<hr />
-<label for="foo">Edit content: "{{ foo }}"</label>
-<input type="text" class="form-control" id="foo" data-ng-model="foo">
+	<hr />
+	<label for="foo">Edit content: "{{ foo }}"</label>
+	<input type="text" class="form-control" id="foo" data-ng-model="foo">
 </div>
 <div class="col-xs-12">
-<hr />
-<p>Random value: {{ value }}</p>
-<button class="btn btn-sm btn-default" data-ng-click="genValue()">Generate value</button>
+	<hr />
+	<p>Random value: {{ value }}</p>
+	<button class="btn btn-sm btn-default" data-ng-click="genValue()">Generate value</button>
 </div>
 \end{lstlisting}
 
 
-The component implementation contains the following JavaScript code in the file \emph{lib/MyComp.js}. Implementing a component consists in defining its life-cycle methods (\emph{start} and \emph{stop}, l 120-35), defining some parameters that can be configured from the configuration model (l 4-9) and defining the \emph{uiControler} that will be called from the browser runtime to create the graphical view of the component. The binding between the view and the component model is obtained in sharing the \emph{\$scope} object  that refers to the application model in the angularJS technological stack. The developers can also define input and output ports for the component\footnote{https://github.com/kevoree/kevoree-js}). We propose an alternate development model using TypeScript as a main programming language. 
+The component implementation contains the following JavaScript code in the file \emph{lib/MyComp.js}. Implementing a component consists in defining its life-cycle methods (\emph{start} and \emph{stop}, l.20-35), defining some parameters that can be configured from the configuration model (l.7-10) and defining an \emph{uiController} function that will be called from the browser runtime to handle the view behavior using AngularJS. The binding between the view and the component model is obtained by sharing the \emph{\$scope} object  that refers to the application's model in the AngularJS technological stack. The developers can also define input and output ports for the component\footnote{https://github.com/kevoree/kevoree-js}). We propose an alternate development model using TypeScript as a main programming language.
 
 
 
@@ -103,104 +103,104 @@ The component implementation contains the following JavaScript code in the file 
 var AbstractComponent = require('kevoree-entities').AbstractComponent;
 
 var MyComp = AbstractComponent.extend({
- toString: 'MyComp',
+  toString: 'MyComp',
 
-/* This is an example of dictionary attribute that you can set for your entity */
-dic_yourAttrName: {
-	optional: false,
-	defaultValue: 'aDefaultValue',
-},
+  /* This is an example of dictionary attribute that you can set for your entity */
+  dic_yourAttrName: {
+    optional: false,
+    defaultValue: 'aDefaultValue',
+  },
 
-construct: function () {
-	this.scope ={};
-},
+  construct: function () {
+    this.scope = {};
+  },
 
-/**
-* this method will be called by the Kevoree platform when your component has to start
-* @param {Function} done
-*/
-start: function (done) {
-	this.log.debug(this.toString(), 'START');
-	this.scope.started= true;
-	done();
-	//...
-},
+  /**
+  * this method will be called by the Kevoree platform when your component has to start
+  * @param {Function} done
+  */
+  start: function (done) {
+    this.log.debug(this.toString(), 'START');
+    this.scope.started = true;
+    // ...
+    done();
+  },
 
-/**
-* this method will be called by the Kevoree platform when your component has to stop
-* @param {Function} done
-*/
-stop: function (done) {
-	this.log.debug(this.toString(), 'STOP');
-	this.scope.started= stop;
-	done();
-},
+  /**
+  * this method will be called by the Kevoree platform when your component has to stop
+  * @param {Function} done
+  */
+  stop: function (done) {
+    this.log.debug(this.toString(), 'STOP');
+    this.scope.started= stop;
+    done();
+  },
 
 
-/**
-* this method is called by the Browser Runtime in order to retrieve
-* this component AngularJS UI controller
-*/
-uiController: function () {
-return ['$scope', '$timeout', 'instance', function ($scope, $timeout, instance) {
-	// this is your UI controller function
-	// $scope content is available directly within the browser/kevoree-comp-foocomp.html file
-	instance.scope = $scope;
-	$scope.started = instance.started;
-	$scope.foo = 'bar';
-	$scope.value = parseInt(Math.random()*100);
-	$scope.genValue = function () {
-		$scope.value = parseInt(Math.random()*100);
-	};
-	}];
-}
+  /**
+  * this method is called by the Browser Runtime in order to retrieve
+  * this component AngularJS UI controller
+  */
+  uiController: function () {
+    return ['$scope', '$timeout', 'instance', function ($scope, $timeout, instance) {
+      // this is your UI controller function
+      // $scope content is available directly within the browser/kevoree-comp-foocomp.html file
+      instance.scope = $scope;
+      $scope.started = instance.started;
+      $scope.foo = 'bar';
+      $scope.value = parseInt(Math.random()*100);
+      
+      $scope.genValue = function () {
+        $scope.value = parseInt(Math.random()*100);
+      };
+    }];
+  }
 });
 
 module.exports = MyComp;
 \end{lstlisting}
 
 
-Finally, the development model contains a very simple configuration language for tweaking the component implementation. Developers can: 
+Finally, the development model contains a very simple configuration language to tweak the component's view. Developers can:
 
 \begin{itemize}
-	\item change the style sheets (to add specific CSS style), 
-	\item integrate other Angular modules (to integrate angularjs ui widget)  
-	\item modify some user interface metadata such as the default layout for the component view. 
-	\item integrate specific JavaScript artefact to load specific function or split its component implementation in several files. 
-	\end{itemize}
- 
- 
-This configuration can be defined using a JSON formatted configuration file named: \emph{browser/ui-config.json} such as the one presented below.
- 
+	\item provide local and/or external style sheets,
+	\item provide local and/or external JavaScript files,
+	\item specify a list of AngularJS modules to be bootstrapped,
+	\item modify the layout metadata such as the default \emph{width} and \emph{height} for the component view.
+\end{itemize}
+
+
+This configuration is defined using a JSON formatted file named: \emph{browser/ui-config.json} such as the one presented below.
+
 \begin{lstlisting}[language=JavaScript,numbers=right,firstnumber=1,basicstyle=\scriptsize,deletekeywords={port},frame=none,caption={Excerpt of the component configuration}]
 
 {
-	"scripts": [
-	"my-local-script.js",
-	"//cdn.scripts.foo/my-lib.js"
-	],
-	"styles": [
-	"my-local-style.css",
-	"//cdn.styles.bar/my-style.css"
-	],
-	"depModules": [
-	"myNgModule"
-	],
-	"layout": {
-		"width": 2,
-		"height": 1
-	}
+  "scripts": [
+    "my-local-script.js",
+    "//cdn.scripts.foo/my-lib.js"
+  ],
+  "styles": [
+    "my-local-style.css",
+    "//cdn.styles.bar/my-style.css"
+  ],
+  "depModules": [
+    "myNgModule"
+  ],
+  "layout": {
+    "width": 2,
+    "height": 1
+  }
 }
 \end{lstlisting}
 
-Finally the last artefact contains the configuration model used to define the architecture of a distributed and heterogeneous application. A full documentation of this configuration can be found here \footnote{http://kevoree.org/doc/}. The following example  illustrates a configuration with two nodes: one that will start a Node.js runtime  and the other one will run in the Browser runtime. Figure~\ref{fig:fig6} presents a visual representation of this running configuration using the Kevoree Editor. 
+Finally the last artefact contains the configuration model used to define the architecture of a distributed and heterogeneous application. A full documentation of this configuration can be found here \footnote{http://kevoree.org/doc/}. The following example  illustrates a configuration with two nodes: one that will start a Node.js runtime  and the other one will run in the Browser runtime. Figure~\ref{fig:fig6} presents a visual representation of this running configuration using the Kevoree Editor.
 
 
 \begin{lstlisting}[language=JavaScript,numbers=right,firstnumber=1,basicstyle=\scriptsize,morekeywords={add,attach,set,network},frame=none,caption={Excerpt of the application initial configuration}]
 add node0, browser : JavascriptNode
-add sync : WSGroup
-// and we add your component to the Browser node so that you can test your UI
 add browser.comp : cbse.MyComp
+add sync : WSGroup
 
 attach node0, browser sync
 
@@ -208,7 +208,6 @@ set sync.master = 'node0'
 
 set browser.logLevel = 'DEBUG'
 set browser.comp.yourAttrName = 'nonDefaultValue'
-
 \end{lstlisting}
 
 \begin{figure}[h]
@@ -261,18 +260,18 @@ To discuss the strength and the limitations of KevoreeJS, we present the current
 
 \indent \textbf{5.} Search Engine Optimization is still an open problem. We do not provide new concepts in the KevoreeJS to solve this issue.
 
-\indent \textbf{6.} We support client/server partitioning. Among 14 modules that have been developed for the motivating scenario, 11 are cross-platform Java-JavaScript components, consequently they can run on the server side or on the client side.  One of the component, which is in charge of doing complex event processing is generated from ThingML behavioral description. ThingML~\cite{DBLP:conf/models/FleureyMSB11} provides code generators for Java, JavaScript, and C. Consequently this component can be deployed dynamically on the Browser or within a Java or JavaScript Kevoree runtime on the server.  The following code illustrates an example of a component behavior that perform a complex event processing on a stream of float value and provide every five second an average of this stream of values. Thanks to ThingML code generators, we could obtain C, Java or JavaScript implementation of this behavior. Consequently, an architect can dynamically decide if the query must be deployed closed to the sensors, within a gateway or within the bowser. 
+\indent \textbf{6.} We support client/server partitioning. Among 14 modules that have been developed for the motivating scenario, 11 are cross-platform Java-JavaScript components, consequently they can run on the server side or on the client side.  One of the component, which is in charge of doing complex event processing is generated from ThingML behavioral description. ThingML~\cite{DBLP:conf/models/FleureyMSB11} provides code generators for Java, JavaScript, and C. Consequently this component can be deployed dynamically on the Browser or within a Java or JavaScript Kevoree runtime on the server.  The following code illustrates an example of a component behavior that perform a complex event processing on a stream of float value and provide every five second an average of this stream of values. Thanks to ThingML code generators, we could obtain C, Java or JavaScript implementation of this behavior. Consequently, an architect can dynamically decide if the query must be deployed closed to the sensors, within a gateway or within the bowser.
 
 \begin{lstlisting}[language=ThingML,frame=none,caption={Excerpt of a component implementation defined using ThingML}]
 thing CepComp {
 	message input(v : Float);
 	message output(avg : Float);
-	
+
 	required port cep {
 		receives input
-		sends output	
+		sends output
 	}
-	
+
 	function avg(values : Float[]) : Float do
 		var i : Integer = 0
 		var appen : Float = 0
@@ -282,16 +281,16 @@ thing CepComp {
 		end
 		return appen / i
 	end
-	
+
 	stream computeAvg do
 	from evt : [cep?input]::timeWindow(5000, 5000)
 	select avg : avg(evt.v[])
 	action cep!output(avg)
 	end
-	
+
 	statechart behavior init Init {
 		state Init {
-			on entry print("Starting")			
+			on entry print("Starting")
 		}
 	}
 }
