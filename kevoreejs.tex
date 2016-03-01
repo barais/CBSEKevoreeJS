@@ -28,7 +28,7 @@ To illustrate the framework, we consider a simple dashboard for sensor-based sys
 \subsection{KevoreeJS overview }
 KevoreeJS is built on top of the models@runtime paradigm. Models@runtime denotes model-driven approaches aiming at taming the complexity of dynamic adaptation. It basically pushes the idea of reflection~\cite{DBLP:conf/icse/MorinBNJ09} one step further by considering the reflection layer as a real model that can be used to drive the system deployment and (re) configuration: ``something simpler, safer or cheaper than reality to avoid the complexity, danger and irreversibility of reality''. In practice, component-based (and/or service-based) platforms like Fractal~\cite{bruneton2006fractal}, OpenCOM~\cite{grace2005reflective} or OSGi~\cite{hall2011osgi} offer reflection APIs which make it possible to introspect the system (which components and bindings are currently in place in the system) and dynamic adaptation (by applying CRUD operations on these components and bindings). While some of these platforms offer rollback mechanisms~\cite{david2006safe} to recover after an erroneous adaptation, the idea of models@runtime is to prevent the system from actually enacting an erroneous adaptation. In other words, the ``model at runtime'' is a reflection model which can be uncoupled (for reasoning, validation, simulation purposes) and automatically resynchronized. This modelling layer provides a common abstraction to describe the system configuration. This model can be interpreted to decide which packages (component package and third parties libraries) must be installed or removed and which component must be instantiated and started. This modelling layer can also be  modified and pushed to peers to trigger distributed reconfigurations.
 
-KevoreeJS\footnote{http://runjs.kevoree.org}  implements the Kevoree component model. Kevoree is a dynamic component-based framework for distributed systems that follows the models@runtime paradigm and embeds a structural model of the distributed system. This model is used for two main purposes: (i) it represents a snapshot of the heterogeneous and distributed application state and (ii) it provides a language to drive the reconfigurations of this application. The Kevoree model embodies the following four main concepts of a distributed system.
+KevoreeJS\footnote{http://runjs.kevoree.org} implements the Kevoree component model. Kevoree is a dynamic component-based framework for distributed systems that follows the models@runtime paradigm and embeds a structural model of the distributed system. This model is used for two main purposes: (i) it represents a snapshot of the heterogeneous and distributed application state and (ii) it provides a language to drive the reconfigurations of this application. The Kevoree model embodies the following four main concepts of a distributed system.
 
 \begin{enumerate}
 	\item The software \textbf{components} represent software units that provide the business value of the distributed system.
@@ -54,14 +54,14 @@ KevoreeJS comes with a set of tools:
 \end{itemize}
 
 
-The yeoman generator create skeletons to implement new components. It mainly provides six Software artefacts:
+The Yeoman generator creates skeletons to implement new components. It mainly provides six Software artefacts:
 \begin{itemize}
-	\item \emph{package.json}, which defines the set of dependencies for your component.
-	\item \emph{Gruntfile.js}, which provides the tasks to achieve for creating your component deployment unit. 
-	\item  \emph{browser/kevoree-comp-mycomp.html}; as we reuse angularJS as a development model for the component, this html file is the artefact in which we create the component  view .
-	\item \emph{lib/MyComp.js}; this JavaScript file contains the model and the controller for the component.
-	\item \emph{browser/ui-config.json}; this file serves to configure the style parameters, the layout parameters, the angularjs module dependencies parameter and the other JavaScript artefacts to include. 
-	\item \emph{kevs/main.kevs}; this file contains an initial configuration when starting the application. 
+	\item \emph{package.json}, which defines the set of dependencies for a component.
+	\item \emph{Gruntfile.js}, which provides the tasks to achieve for creating a component's deployment unit. 
+	\item  \emph{browser/kevoree-comp-mycomp.html}; which is a html file that creates the AngularJS component view
+	\item \emph{lib/MyComp.js}; which contains the model and the controller for the component.
+	\item \emph{browser/ui-config.json}; which stores the style parameters, the layout parameters, the AngularJS module dependencies parameter, and the other JavaScript artefacts to include. 
+	\item \emph{kevs/main.kevs}; which contains an initial configuration for the application startup. 
 \end{itemize}
 
 
