@@ -66,7 +66,7 @@ The Yeoman generator creates skeletons to implement new components. It mainly pr
 
 
 \subsection{Development model}
-To illustrate this development model, we discuss the code of the last four artefacts for a simple component that provides the following graphical behavior (see Figure~\ref{fig:fig5}). This component simply shows its current state (Kevoree property) and let the user change some properties (pure AngularJS UI properties).
+To illustrate this development model, we discuss the code of the last four artefacts for a simple component that provides the following graphical behavior (see Figure~\ref{fig:fig5}). This component simply shows its current state (Kevoree property) and lets the user change some properties (pure AngularJS UI properties).
 
 
 \begin{figure}[h]
@@ -95,7 +95,7 @@ The view contains the following HTML code. It can access the controller's \emph{
 \end{lstlisting}
 
 
-The component implementation contains the following JavaScript code in the file \emph{lib/MyComp.js}. Implementing a component consists in defining its life-cycle methods (\emph{start} and \emph{stop}, l.20-35), defining some parameters that can be configured from the configuration model (l.7-10) and defining an \emph{uiController} function that will be called from the browser runtime to handle the view behavior using AngularJS. The binding between the view and the component model is obtained by sharing the \emph{\$scope} object  that refers to the application's model in the AngularJS technological stack. The developers can also define input and output ports for the component\footnote{https://github.com/kevoree/kevoree-js}). We propose an alternate development model using TypeScript as a main programming language.
+The component implementation contains the following JavaScript code in the file \emph{lib/MyComp.js}. Implementing a component consists in defining its life-cycle methods (\emph{start} and \emph{stop}, l.20-35), defining some parameters that can be configured from the configuration model (l.7-10), and defining an \emph{uiController} function that will be called from the browser runtime to handle the view behavior using AngularJS. The binding between the view and the component model is obtained by sharing the \emph{\$scope} object, which refers to the application's model in the AngularJS technological stack. The developers can also define input and output ports for the component\footnote{https://github.com/kevoree/kevoree-js}). We propose an alternate development model using TypeScript as a main programming language.
 
 
 
@@ -164,9 +164,9 @@ module.exports = MyComp;
 Finally, the development model contains a very simple configuration language to tweak the component's view. Developers can:
 
 \begin{itemize}
-	\item provide local and/or external style sheets,
-	\item provide local and/or external JavaScript files,
-	\item specify a list of AngularJS modules to be bootstrapped,
+	\item provide local and/or external style sheets;
+	\item provide local and/or external JavaScript files;
+	\item specify a list of AngularJS modules to be bootstrapped;
 	\item modify the layout metadata such as the default \emph{width} and \emph{height} for the component view.
 \end{itemize}
 
@@ -194,7 +194,7 @@ This configuration is defined using a JSON formatted file named: \emph{browser/u
 }
 \end{lstlisting}
 
-Finally the last artefact contains the configuration model used to define the architecture of a distributed and heterogeneous application. A full documentation of this configuration can be found here \footnote{http://kevoree.org/doc/}. The following example  illustrates a configuration with two nodes: one that will start a Node.js runtime  and the other one will run in the Browser runtime. Figure~\ref{fig:fig6} presents a visual representation of this running configuration using the Kevoree Editor.
+Finally, the last artefact contains the configuration model used to define the architecture of a distributed and heterogeneous application. A full documentation of this configuration is available on our website\footnote{http://kevoree.org/doc/}. The following example  illustrates a configuration with two nodes: the first one starts a Node.js runtime  and the other one runs in the Browser runtime. Figure~\ref{fig:fig6} presents a visual representation of this running configuration using the Kevoree Editor.
 
 
 \begin{lstlisting}[language=JavaScript,numbers=right,firstnumber=1,basicstyle=\scriptsize,morekeywords={add,attach,set,network},frame=none,caption={Excerpt of the application initial configuration}]
@@ -218,13 +218,13 @@ set browser.comp.yourAttrName = 'nonDefaultValue'
 \end{figure}
 
 
- A complete description of the development model is available online\footnote{ https://github.com/HEADS-project/training/tree/master/2.Kevoree\_Basics}, \footnote{https://github.com/kevoree/kevoree-js.d.ts}.
+ A complete description of the development model is available online\footnote{https://github.com/HEADS-project/training/tree/master/2.Kevoree\_Basics}$^{,}$\footnote{https://github.com/kevoree/kevoree-js.d.ts}.
 
 \subsection{Evaluation}
 To validate the proposed approach, we follow two ways. First we provide some figures on KevoreeJS in terms of line of code, number of reusable components available online, time penalty to initiate KevoreeJS when loading the pages. Then, we evaluate the approach regarding the challenges discussed in Section 2.
 
 \subsubsection{Quantitative evaluation}
-To implement the KevoreeJS core and the sensor based dashboard, we create 8 components, 3 channels, 3 groups. The core of KevoreeJS and these 14 software artefacts contain 56,671 LoC (15,584 has been manually written and 41,177 are generated from the model to automatically manage model entities, model load and serialization, \dots The Figure~\ref{fig:fig3}  illustrates the configuration model of the applications using the Kevoree Web Editor~\footnote{http://editor.kevoree.org}. The Figure \ref{fig:fig4} focuses in particular on the configuration of the SPA presented in Figure~\ref{fig:fig1}. All the code for this application is available on github. We provide a companion web page \footnote{http://github.com/kevoree/CBSE16KevoreeJS} to provide the links to all the software artefacts we use in this experiment.
+To implement the KevoreeJS core and the sensor based dashboard, we create 8 components, 3 channels, 3 groups. The core of KevoreeJS and these 14 software artefacts contain 56,671 LoC (15,584 has been manually written and 41,177 are generated from the model to automatically manage model entities, model load and serialization, \dots The Figure~\ref{fig:fig3}  illustrates the configuration model of the applications using the Kevoree Web Editor~\footnote{http://editor.kevoree.org}. The Figure \ref{fig:fig4} focuses in particular on the configuration of the SPA presented in Figure~\ref{fig:fig1}. All the code for this application is available on github. We provide a companion web page\footnote{http://github.com/kevoree/CBSE16KevoreeJS} to provide the links to all the software artefacts we use in this experiment.
 
 
 \begin{figure*}[t]
@@ -260,7 +260,7 @@ To discuss the strength and the limitations of KevoreeJS, we present the current
 
 \indent \textbf{5.} Search Engine Optimization is still an open problem. We do not provide new concepts in the KevoreeJS to solve this issue.
 
-\indent \textbf{6.} We support client/server partitioning. Among 14 modules that have been developed for the motivating scenario, 11 are cross-platform Java-JavaScript components, consequently they can run on the server side or on the client side.  One of the component, which is in charge of doing complex event processing is generated from ThingML behavioral description. ThingML~\cite{DBLP:conf/models/FleureyMSB11} provides code generators for Java, JavaScript, and C. Consequently this component can be deployed dynamically on the Browser or within a Java or JavaScript Kevoree runtime on the server.  The following code illustrates an example of a component behavior that perform a complex event processing on a stream of float value and provide every five second an average of this stream of values. Thanks to ThingML code generators, we could obtain C, Java or JavaScript implementation of this behavior. Consequently, an architect can dynamically decide if the query must be deployed closed to the sensors, within a gateway or within the bowser.
+\indent \textbf{6.} We support client/server partitioning. Among 14 modules that have been developed for the motivating scenario, 11 are cross-platform Java-JavaScript components, consequently they can run on the server side or on the client side.  One of the component, which is in charge of doing complex event processing is generated from ThingML behavioral description. ThingML~\cite{DBLP:conf/models/FleureyMSB11} provides code generators for Java, JavaScript, and C. Consequently this component can be deployed dynamically on the Browser or within a Java or JavaScript Kevoree runtime on the server.  The following code illustrates an example of a component behavior that performs a complex event processing on a stream of float values and provides every five second an average of this stream of values. Thanks to ThingML code generators, we could obtain C, Java or JavaScript implementation of this behavior. Consequently, an architect can dynamically decide if the query must be deployed closed to the sensors, within a gateway, or within the browser.
 
 \begin{lstlisting}[language=ThingML,frame=none,caption={Excerpt of a component implementation defined using ThingML}]
 thing CepComp {
